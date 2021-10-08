@@ -1,4 +1,4 @@
 # spacex demo
 
 ## Dependencies
-Redux, Axios, React-Redux are installed.
+Redux, Axios, React-Redux, @reduxjs/toolkit these 4 are installed.
