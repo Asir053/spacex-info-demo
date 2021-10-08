@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 const Missions = () => {
     const [search,setSearch] = useState("");
     const [checked,setChecked] = useState(false);
+    const [ldate,setLDate] = useState("");
     const dispatch = useDispatch();
     const posts = useSelector((state) => state.list);
 
@@ -17,12 +18,22 @@ const Missions = () => {
 
     const filteredPosts = posts.filter(
         perPost => {
+          var launchmonth = parseInt((perPost.launch_date_local).slice(5,7)); 
+          var launchday = parseInt((perPost.launch_date_local).slice(8,10));
+          var launchyear = parseInt((perPost.launch_date_local).slice(0,4));
+
+          var dateObj = new Date();
+          var month = dateObj.getUTCMonth() + 1; //months from 1-12
+          var day = dateObj.getUTCDate();
+          var year = dateObj.getUTCFullYear();
           return (
             perPost.rocket.rocket_name
             .toLowerCase().replace(/\s+/g, '')
             .includes(search.toLowerCase().replace(/\s+/g, ''))
             &&
             perPost.upcoming===checked
+            &&
+            (ldate==="Last Week"?(day-7<=launchday&&launchday<=day):ldate==="Last Month"?(month-1<=launchmonth&&launchmonth<=month&&launchyear==year):ldate==="Last Year"?(year-1<=launchyear&&launchyear<=year):false)
           );
         }
       );
@@ -38,13 +49,23 @@ const Missions = () => {
     //   const handleChange = e => {
     //     setSearch(e.target.value);
     //   };
+
+      function showAll() {
+        return (
+            <ol>
+                {posts.map((post) => (
+                    <li key={post.flight_number}><div>{post.rocket.rocket_name}</div><div>{post.mission_name}   {post.upcoming==true?"UPCOMING":''}</div></li>
+                ))}
+            </ol>
+        );
+      }
     
       function searchList() {
         return (
             // {filteredPersons.map(person =>  <Card key={person.id} person={person} />)}
             <ol>
                 {filteredPosts.map((post) => (
-                    <li key={post.flight_number}><div>{post.rocket.rocket_name}</div><div>{post.mission_name}   {post.upcoming==true?"UPCOMING":''}</div></li>
+                    <li key={post.flight_number}><div>{post.rocket.rocket_name}</div><div>{post.mission_name}   {post.upcoming==true?"UPCOMING":''}     {post.launch_date_local}</div></li>
                 ))}
             </ol>
         );
@@ -61,6 +82,10 @@ const Missions = () => {
         );
       }
 
+      const handleSelect = e => {
+        setLDate(e.target.value);
+      };
+
 
     return (
         <div>
@@ -74,10 +99,20 @@ const Missions = () => {
                 />
             </div>
             <div>
-                <input type="checkbox" onChange={e => setChecked(e.target.checked)} /> 
+                <label>Upcoming<input type="checkbox" onChange={e => setChecked(e.target.checked)} /></label>
             </div>
+            <select value={ldate} onChange={handleSelect}>
+                <option value='Last Week'>Last Week</option>
+                <option value='Last Month'>Last Month</option>
+                <option value='Last Year'>Last Year</option>
+            </select>
+            
+            {/* {checked===undefined && search===""?showAll():searchList()} */}
+            {showAll()}
             {searchList()}
             {/* {checkBoxFilter()} */}
+
+            
             
 
             {/* <div>{posts.map((post, id) => (
