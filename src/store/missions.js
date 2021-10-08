@@ -28,7 +28,7 @@ export default slice.reducer;
 
 const { postsRequested, postsReceived, postsRequestFailed } = slice.actions;
 
-const url = "/posts";
+const url = "/launches";
 
 export const loadposts = () => (dispatch) => {
     return dispatch(

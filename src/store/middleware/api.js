@@ -16,7 +16,7 @@ const api =
 
         try {
             const response = await axios.request({
-                baseURL: "https://jsonplaceholder.typicode.com",
+                baseURL: "https://api.spacexdata.com/v3",
                 url,
                 method,
                 data,

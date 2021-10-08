@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import { loadposts } from "../store/posts";
+import { loadposts } from "../store/missions";
 import { useEffect } from "react";
 
-const Posts = () => {
+const Missions = () => {
     const dispatch = useDispatch();
     const posts = useSelector((state) => state.list);
 
@@ -12,14 +12,14 @@ const Posts = () => {
 
     return (
         <div>
-            <h1>Posts</h1>
-            <ul>
+            <h1>Launches</h1>
+            <ol>
                 {posts.map((post) => (
-                    <li key={post.id}>{post.title}</li>
+                    <li key={post.flight_number}><div>{post.rocket.rocket_name}</div><div>{post.mission_name}</div><a href="#">p</a></li>
                 ))}
-            </ul>
+            </ol>
         </div>
     );
 };
 
-export default Posts;
+export default Missions;
