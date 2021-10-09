@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { loadposts } from "../store/missions";
 import { useEffect, useState } from "react";
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 
 const Missions = () => {
@@ -18,17 +19,10 @@ const Missions = () => {
 
     const filteredPosts = posts.filter(
         perPost => {
-        //   var launchmonth = parseInt((perPost.launch_date_local).slice(5,7)); 
-        //   var launchday = parseInt((perPost.launch_date_local).slice(8,10));
-        //   var launchyear = parseInt((perPost.launch_date_local).slice(0,4));
 
-
-          var launchdate =new Date(perPost.launch_date_local);
+          var launchdate =new Date(perPost.launch_date_utc);
 
           var dateObj = new Date();
-        //   var month = dateObj.getUTCMonth() + 1; //months from 1-12
-        //   var day = dateObj.getUTCDate();
-        //   var year = dateObj.getUTCFullYear();
 
           // To calculate the time difference of two dates
           var Difference_In_Time = dateObj.getTime() - launchdate.getTime();
@@ -45,7 +39,7 @@ const Missions = () => {
             perPost.upcoming===checked
             &&
             (ldate==="Last Week"?(Difference_In_Days<=7):ldate==="Last Month"?(Difference_In_Days<=30):ldate==="Last Year"?(Difference_In_Days<=365):false)
-            // (ldate==="Last Week"?(day-7<=launchday&&launchday<=day):ldate==="Last Month"?(month-1<=launchmonth&&launchmonth<=month&&launchyear==year):ldate==="Last Year"?(year-1<=launchyear&&launchyear<=year):false)
+            
           );
         }
       );
@@ -58,41 +52,27 @@ const Missions = () => {
         }
       );
     
-    //   const handleChange = e => {
-    //     setSearch(e.target.value);
-    //   };
 
       function showAll() {
         return (
-            <ol>
+            <div className="d-flex flex-column">
                 {posts.map((post) => (
-                    <li key={post.flight_number}><div>{post.rocket.rocket_name}</div><div>{post.mission_name}   {post.upcoming==true?"UPCOMING":''}</div></li>
+                    <div className="card text-dark mx-1 my-1"><div className="card-body"><h5 className="card-title"><span>Mission {post.flight_number}: <a href={post.links.wikipedia} style={{ textDecoration: 'none' }}>{post.mission_name}</a></span></h5><div className="card-text">Rocket Name: {post.rocket.rocket_name}<br/>Launch Date: {post.launch_date_utc.slice(0,10)}<span className="float-right">Time: {post.launch_date_utc.slice(11,19)}   {post.upcoming===true?"(UPCOMING)":''}</span><br/>Launch Site: {post.launch_site.site_name_long}</div></div></div>
                 ))}
-            </ol>
+            </div>
         );
       }
     
       function searchList() {
         return (
-            // {filteredPersons.map(person =>  <Card key={person.id} person={person} />)}
-            <ol>
+            <div className="d-flex flex-column">
                 {filteredPosts.map((post) => (
-                    <li key={post.flight_number}><div>{post.rocket.rocket_name}</div><div>{post.mission_name}   {post.upcoming==true?"UPCOMING":''}     {post.launch_date_local}</div></li>
+                    <div className="card text-dark mx-1 my-1"><div className="card-body"><h5 className="card-title"><span>Mission {post.flight_number}: <a href={post.links.wikipedia} style={{ textDecoration: 'none' }}>{post.mission_name}</a></span></h5><div className="card-text">Rocket Name: {post.rocket.rocket_name}<br/>Launch Date: {post.launch_date_utc.slice(0,10)}<span className="float-right">Time: {post.launch_date_utc.slice(11,19)}   {post.upcoming===true?"(UPCOMING)":''}</span><br/>Launch Site: {post.launch_site.site_name_long}</div></div></div>
                 ))}
-            </ol>
+            </div>
         );
       }
 
-      function checkBoxFilter() {
-        return (
-            // {filteredPersons.map(person =>  <Card key={person.id} person={person} />)}
-            <ol>
-                {filteredPosts2.map((post) => (
-                    <li key={post.flight_number}><div>{post.rocket.rocket_name}</div><div>{post.mission_name}</div></li>
-                ))}
-            </ol>
-        );
-      }
 
       const handleSelect = e => {
         setLDate(e.target.value);
@@ -100,50 +80,49 @@ const Missions = () => {
 
 
     return (
-        <div>
-            <h1>Launches</h1>
-            <div>
-                <p>Search By Rocket Name:</p>
+        <div class="container mt-3 bg-dark text-white py-3 ">
+            <div className="d-flex justify-content-center">
+            <div className="d-flex flex-column">
+            <h1 className="d-flex justify-content-center my-3">SpaceX Launches</h1>
+            <h3 className="d-flex justify-content-center mt-3">Filter Launches</h3>
+            <p className="d-flex justify-content-center mb-3">(please interact with all the filtering options)</p>
+            <div className="d-flex justify-content-center my-1">
+                <label>Search By Rocket Name:
                 <input 
-                type = "search" 
-                placeholder = "Search Posts" 
+                type = "search"
+                className="form-control" 
+                placeholder = "Search Launches" 
                 onChange={e => setSearch(e.target.value)}
                 />
+                </label>
             </div>
-            <div>
-                <label>Upcoming<input type="checkbox" onChange={e => setChecked(e.target.checked)} /></label>
+            <div className="d-flex justify-content-center checkbox my-1">
+                <label>Upcoming &nbsp;&nbsp;<input type="checkbox" onChange={e => setChecked(e.target.checked)} /></label>
             </div>
-            <select value={ldate} onChange={handleSelect}>
+            <div className="d-flex justify-content-center my-1">
+                <label>Filter by Launch Date &nbsp;&nbsp; 
+            <select className="selectpicker btn-secondary" value={ldate} onChange={handleSelect}>
                 <option value='Last Week'>Last Week</option>
                 <option value='Last Month'>Last Month</option>
                 <option value='Last Year'>Last Year</option>
             </select>
-            
-            {/* {checked===undefined && search===""?showAll():searchList()} */}
-            {showAll()}
-            {searchList()}
-            {/* {checkBoxFilter()} */}
-
-            
-            
-
-            {/* <div>{posts.map((post, id) => (
-            <label key={id}>
-                <input type="checkbox" data-id={id} onClick={handleChecked} /> {post.upcoming}
-                <input type="checkbox" checked={post.upcoming} data-id={id} onClick={handleChecked} /> 
             </label>
-            ))}</div> */}
-
-     
-                
-          
+            </div>
             
-            {/* {checked={Checked.indexOf(posts.map((post) => post.upcoming === -1)) ? false : true}} */}
-            {/* <ol>
-                {posts.map((post) => (
-                    <li key={post.flight_number}><div>{post.rocket.rocket_name}</div><div>{post.mission_name}</div><a href="#">p</a></li>
-                ))}
-            </ol> */}
+ 
+            <div className="d-flex justify-content-center py-3 my-2">
+            {searchList()}
+            </div>
+
+            <h3 className="d-flex justify-content-center">List of Launches</h3>
+            <div className="d-flex justify-content-center py-3 my-2">
+            {showAll()}
+            </div>      
+
+            </div>
+            </div>
+
+            
         </div>
     );
 };
