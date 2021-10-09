@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import BG from '../assets/bgSpaceX.jpg';
 import "../App.css";
-
+import LaunchesCard from "./launchesCard";
 
 
 const Missions = () => {
@@ -60,7 +60,8 @@ const Missions = () => {
         return (
             <div className="d-flex flex-column">
                 {posts.map((post) => (
-                    <div className="card text-dark mx-1 my-1"><div className="card-body"><h5 className="card-title"><span>Mission {post.flight_number}: <a href={post.links.wikipedia} style={{ textDecoration: 'none' }}>{post.mission_name}</a></span></h5><div className="card-text">Rocket Name: {post.rocket.rocket_name}<br/>Launch Date: {post.launch_date_utc.slice(0,10)}<span className="float-right">Time: {post.launch_date_utc.slice(11,19)}   {post.upcoming===true?"(UPCOMING)":''}</span><br/>Launch Site: {post.launch_site.site_name_long}</div></div></div>
+                    // <div className="card text-dark mx-1 my-1"><div className="card-body"><h5 className="card-title"><span>Mission {post.flight_number}: <a href={post.links.wikipedia} style={{ textDecoration: 'none' }}>{post.mission_name}</a></span></h5><div className="card-text">Rocket Name: {post.rocket.rocket_name}<br/>Launch Date: {post.launch_date_utc.slice(0,10)}<span className="float-right">Time: {post.launch_date_utc.slice(11,19)}   {post.upcoming===true?"(UPCOMING)":''}</span><br/>Launch Site: {post.launch_site.site_name_long}</div></div></div>
+                    <LaunchesCard flight_number={post.flight_number} links={post.links} mission_name={post.mission_name} rocket={post.rocket} launch_date_utc={post.launch_date_utc} upcoming={post.upcoming} launch_site={post.launch_site}/>
                 ))}
             </div>
         );
@@ -70,7 +71,8 @@ const Missions = () => {
         return (
             <div className="d-flex flex-column">
                 {filteredPosts.map((post) => (
-                    <div className="card text-dark mx-1 my-1"><div className="card-body"><h5 className="card-title"><span>Mission {post.flight_number}: <a href={post.links.wikipedia} style={{ textDecoration: 'none' }}>{post.mission_name}</a></span></h5><div className="card-text">Rocket Name: {post.rocket.rocket_name}<br/>Launch Date: {post.launch_date_utc.slice(0,10)}<span className="float-right">Time: {post.launch_date_utc.slice(11,19)}   {post.upcoming===true?"(UPCOMING)":''}</span><br/>Launch Site: {post.launch_site.site_name_long}</div></div></div>
+                    // <div className="card text-dark mx-1 my-1"><div className="card-body"><h5 className="card-title"><span>Mission {post.flight_number}: <a href={post.links.wikipedia} style={{ textDecoration: 'none' }}>{post.mission_name}</a></span></h5><div className="card-text">Rocket Name: {post.rocket.rocket_name}<br/>Launch Date: {post.launch_date_utc.slice(0,10)}<span className="float-right">Time: {post.launch_date_utc.slice(11,19)}   {post.upcoming===true?"(UPCOMING)":''}</span><br/>Launch Site: {post.launch_site.site_name_long}</div></div></div>
+                    <LaunchesCard flight_number={post.flight_number} links={post.links} mission_name={post.mission_name} rocket={post.rocket} launch_date_utc={post.launch_date_utc} upcoming={post.upcoming} launch_site={post.launch_site}/>
                 ))}
             </div>
         );
