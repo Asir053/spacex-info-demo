@@ -2,6 +2,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadposts } from "../store/missions";
 import { useEffect, useState } from "react";
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import BG from '../assets/bgSpaceX.jpg';
+import "../App.css";
+
 
 
 const Missions = () => {
@@ -80,14 +83,14 @@ const Missions = () => {
 
 
     return (
-        <div class="container mt-3 bg-dark text-white py-3 ">
-            <div className="d-flex justify-content-center">
-            <div className="d-flex flex-column">
+        <div className="container mt-3  text-white py-3 " style={{backgroundColor: "#01021B"}}>
+            <div className="d-flex justify-content-center flex-column">
+            <div  style={{backgroundImage: `url(${BG})`, backgroundSize: "cover"}}>
             <h1 className="d-flex justify-content-center my-3">SpaceX Launches</h1>
             <h3 className="d-flex justify-content-center mt-3">Filter Launches</h3>
             <p className="d-flex justify-content-center mb-3">(please interact with all the filtering options)</p>
             <div className="d-flex justify-content-center my-1">
-                <label>Search By Rocket Name:
+                <label>&nbsp;&nbsp;&nbsp;&nbsp;Search By Rocket Name:
                 <input 
                 type = "search"
                 className="form-control" 
@@ -99,7 +102,7 @@ const Missions = () => {
             <div className="d-flex justify-content-center checkbox my-1">
                 <label>Upcoming &nbsp;&nbsp;<input type="checkbox" onChange={e => setChecked(e.target.checked)} /></label>
             </div>
-            <div className="d-flex justify-content-center my-1">
+            <div className="d-flex justify-content-center mt-1 mb-5 pb-5">
                 <label>Filter by Launch Date &nbsp;&nbsp; 
             <select className="selectpicker btn-secondary" value={ldate} onChange={handleSelect}>
                 <option value='Last Week'>Last Week</option>
@@ -113,14 +116,14 @@ const Missions = () => {
             <div className="d-flex justify-content-center py-3 my-2">
             {searchList()}
             </div>
-
-            <h3 className="d-flex justify-content-center">List of Launches</h3>
+            </div>
+            <h3 className="d-flex justify-content-center mt-3">List of Launches</h3>
             <div className="d-flex justify-content-center py-3 my-2">
             {showAll()}
             </div>      
 
             </div>
-            </div>
+           
 
             
         </div>
