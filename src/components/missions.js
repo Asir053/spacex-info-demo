@@ -18,14 +18,25 @@ const Missions = () => {
 
     const filteredPosts = posts.filter(
         perPost => {
-          var launchmonth = parseInt((perPost.launch_date_local).slice(5,7)); 
-          var launchday = parseInt((perPost.launch_date_local).slice(8,10));
-          var launchyear = parseInt((perPost.launch_date_local).slice(0,4));
+        //   var launchmonth = parseInt((perPost.launch_date_local).slice(5,7)); 
+        //   var launchday = parseInt((perPost.launch_date_local).slice(8,10));
+        //   var launchyear = parseInt((perPost.launch_date_local).slice(0,4));
+
+
+          var launchdate =new Date(perPost.launch_date_local);
 
           var dateObj = new Date();
-          var month = dateObj.getUTCMonth() + 1; //months from 1-12
-          var day = dateObj.getUTCDate();
-          var year = dateObj.getUTCFullYear();
+        //   var month = dateObj.getUTCMonth() + 1; //months from 1-12
+        //   var day = dateObj.getUTCDate();
+        //   var year = dateObj.getUTCFullYear();
+
+          // To calculate the time difference of two dates
+          var Difference_In_Time = dateObj.getTime() - launchdate.getTime();
+  
+          // To calculate the no. of days between two dates
+          var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+
+
           return (
             perPost.rocket.rocket_name
             .toLowerCase().replace(/\s+/g, '')
@@ -33,7 +44,8 @@ const Missions = () => {
             &&
             perPost.upcoming===checked
             &&
-            (ldate==="Last Week"?(day-7<=launchday&&launchday<=day):ldate==="Last Month"?(month-1<=launchmonth&&launchmonth<=month&&launchyear==year):ldate==="Last Year"?(year-1<=launchyear&&launchyear<=year):false)
+            (ldate==="Last Week"?(Difference_In_Days<=7):ldate==="Last Month"?(Difference_In_Days<=30):ldate==="Last Year"?(Difference_In_Days<=365):false)
+            // (ldate==="Last Week"?(day-7<=launchday&&launchday<=day):ldate==="Last Month"?(month-1<=launchmonth&&launchmonth<=month&&launchyear==year):ldate==="Last Year"?(year-1<=launchyear&&launchyear<=year):false)
           );
         }
       );
