@@ -1,5 +1,9 @@
 # SpaceX Launches
 
+## Demo Link
+
+This app can be found [here](https://spacex-launches-info.herokuapp.com/).
+
 ## Dependencies
 
 ### Redux, Axios etc.
@@ -58,6 +62,3 @@ npm i --save-dev @testing-library/jest-dom
 
 - Selected Main branch and clicked 'Deploy Branch'.
 
-## Demo Link
-
-This app can be found [here](https://spacex-launches-info.herokuapp.com/).
